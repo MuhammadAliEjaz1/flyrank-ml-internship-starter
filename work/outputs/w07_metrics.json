@@ -1,1 +1,9 @@
-
+{
+  "week6_tree_p50_mean": 0.6,
+  "week6_tree_p50_min": 0.26,
+  "week6_tree_p50_max": 0.8,
+  "week6_baseline_p50_mean": 0.3,
+  "tree_rule_overlap_top500": 0,
+  "zero_click_page_share": 0.396,
+  "clients_evaluated": 50
+}
