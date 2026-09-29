@@ -107,12 +107,17 @@
   <div class="kicker">Search Content Research · Machine Learning Internship, FlyRank AI</div>
   <h1>When should a page get a second look?</h1>
   <p class="abstract">
-    We asked whether a small learned model could rank declining search pages
-    for editorial review better than a hand-written rule. On held-out clients,
-    a shallow decision tree averaged roughly twice the rule's precision at the
-    top of the queue — but its advantage swung widely by which clients were
-    tested, and it flagged an entirely different set of pages than the rule
-    did. The honest result is a two-signal playbook, not a single verdict.
+    Content teams can't manually review every page in a large portfolio, so
+    FlyRank already uses hand-written flags to triage what needs attention.
+    We asked whether a small learned model could rank declining pages for
+    editorial review better than one of those hand-written rules. Using a
+    time-aware, client-grouped validation split on real search performance
+    data, a shallow decision tree averaged roughly twice the rule's precision
+    at the top of the review queue. That advantage held up on clients the
+    model had never seen, but swung widely by which clients were tested, and
+    the model flagged an entirely different set of pages than the rule did.
+    The honest result is a two-signal playbook for editors, not a single
+    verdict that replaces the rule.
   </p>
   <div class="meta">
     <span>By <b>Muhammad Ali Ejaz</b></span>
