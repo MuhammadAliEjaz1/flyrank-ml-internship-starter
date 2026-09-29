@@ -1,1 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Refresh Opportunity Scoring — A Search Content Research Report</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#f3f2ee; --ink:#1c2321; --ink-soft:#4a534f;
+    --line:#d8d5cc; --teal:#3c6e63; --teal-deep:#274a42;
+    --amber:#a8672c; --red:#a23b32; --card:#faf9f6;
+    box-sizing:border-box;
+    padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#15181a; --ink:#e7e5df; --ink-soft:#a9afab;
+      --line:#33372f; --teal:#7fbfae; --teal-deep:#a7ddc9;
+      --amber:#d69a5e; --red:#e08277; --card:#1b1f21;
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#15181a; --ink:#e7e5df; --ink-soft:#a9afab;
+    --line:#33372f; --teal:#7fbfae; --teal-deep:#a7ddc9;
+    --amber:#d69a5e; --red:#e08277; --card:#1b1f21;
+  }
+  *{box-sizing:border-box}
+  html{scroll-padding-top:env(safe-area-inset-top,0px)}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:'IBM Plex Sans',sans-serif; font-size:16px; line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:720px; margin:0 auto; padding:0 24px 120px;}
+  header.hero{
+    max-width:720px; margin:0 auto; padding:72px 24px 40px;
+    border-bottom:1px solid var(--line);
+  }
+  .kicker{
+    font-family:'IBM Plex Mono',monospace; font-size:13px; color:var(--teal-deep);
+    letter-spacing:.02em; margin-bottom:18px;
+  }
+  h1{
+    font-family:'Newsreader',serif; font-weight:500; font-size:2.6rem;
+    line-height:1.15; margin:0 0 20px; max-width:15ch;
+  }
+  .abstract{
+    font-family:'Newsreader',serif; font-size:1.15rem; font-style:italic;
+    color:var(--ink-soft); line-height:1.55; max-width:56ch; margin:0 0 24px;
+  }
+  .meta{display:flex; flex-wrap:wrap; gap:6px 22px; font-size:13.5px; color:var(--ink-soft);}
+  .meta span b{color:var(--ink); font-weight:600;}
+  section{padding:52px 0; border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  h2{
+    font-family:'Newsreader',serif; font-weight:500; font-size:1.55rem;
+    margin:0 0 22px; display:flex; align-items:baseline; gap:12px;
+  }
+  h2 .num{font-family:'IBM Plex Mono',monospace; font-size:.85rem; color:var(--teal); font-weight:500;}
+  h3{font-family:'IBM Plex Sans',sans-serif; font-weight:600; font-size:1.02rem; margin:28px 0 10px;}
+  p{margin:0 0 16px; max-width:70ch;}
+  ul,ol{margin:0 0 16px; padding-left:22px;}
+  li{margin-bottom:8px; max-width:66ch;}
+  strong{font-weight:600;}
+  code{font-family:'IBM Plex Mono',monospace; font-size:.88em; background:var(--card); padding:.1em .4em; border-radius:3px;}
+  a{color:var(--teal-deep);}
+  .card{
+    background:var(--card); border:1px solid var(--line); border-radius:6px;
+    padding:20px 22px; margin:20px 0;
+  }
+  .card.warn{border-left:3px solid var(--amber);}
+  .card.limit{border-left:3px solid var(--red);}
+  .stat-row{display:flex; flex-wrap:wrap; gap:28px; margin:22px 0;}
+  .stat{min-width:120px;}
+  .stat .n{font-family:'Newsreader',serif; font-size:1.9rem; font-weight:500; color:var(--teal-deep); line-height:1;}
+  .stat .l{font-size:12.5px; color:var(--ink-soft); margin-top:4px;}
+  table{width:100%; border-collapse:collapse; margin:18px 0; font-size:14.5px;}
+  th,td{text-align:left; padding:9px 10px; border-bottom:1px solid var(--line);}
+  th{font-family:'IBM Plex Mono',monospace; font-weight:500; font-size:12px; color:var(--ink-soft); text-transform:none;}
+  .scrollx{overflow-x:auto; -webkit-overflow-scrolling:touch;}
+  .chartcap{font-size:13px; color:var(--ink-soft); margin-top:8px; max-width:60ch;}
+  .tag{
+    display:inline-block; font-family:'IBM Plex Mono',monospace; font-size:11.5px;
+    padding:2px 8px; border-radius:3px; border:1px solid var(--line); color:var(--ink-soft);
+    margin-right:6px;
+  }
+  .tag.ok{border-color:var(--teal); color:var(--teal-deep);}
+  .tag.no{border-color:var(--red); color:var(--red);}
+  footer{
+    max-width:720px; margin:0 auto; padding:48px 24px 90px;
+    font-size:13.5px; color:var(--ink-soft);
+  }
+  footer a{color:var(--teal-deep);}
+  @media (max-width:600px){
+    h1{font-size:2.05rem;}
+    header.hero{padding:52px 20px 32px;}
+    section{padding:40px 0;}
+  }
+</style>
+</head>
+<body>
 
+<header class="hero">
+  <div class="kicker">Search Content Research · Machine Learning Internship, FlyRank AI</div>
+  <h1>When should a page get a second look?</h1>
+  <p class="abstract">
+    We asked whether a small learned model could rank declining search pages
+    for editorial review better than a hand-written rule. On held-out clients,
+    a shallow decision tree averaged roughly twice the rule's precision at the
+    top of the queue — but its advantage swung widely by which clients were
+    tested, and it flagged an entirely different set of pages than the rule
+    did. The honest result is a two-signal playbook, not a single verdict.
+  </p>
+  <div class="meta">
+    <span>By <b>Muhammad Ali Ejaz</b></span>
+    <span>Lane: <b>Refresh / Content Opportunity Scoring</b></span>
+    <span>Data: <b>FlyRank internship warehouse</b>, Jan–Jun 2026</span>
+  </div>
+</header>
+
+<div class="wrap">
+
+<section id="intro">
+  <h2><span class="num">01</span>Introduction</h2>
+  <p>
+    Content teams can't manually review every page in a large portfolio to
+    decide what needs a refresh. This project asks a narrower, decision-shaped
+    question instead of a modeling question: <strong>which declining pages
+    should a content editor look at first, this week, given limited review
+    time?</strong>
+  </p>
+  <p>
+    The unit of analysis is one page's monthly performance snapshot. The
+    output is a ranked queue with a reason code attached to each entry, so a
+    reviewer can see why a page was flagged, not just that it was. A wrong
+    call has an asymmetric cost: flagging a healthy page wastes an editor's
+    time, but missing a genuinely declining, visible page lets it lose ground
+    silently — the more expensive mistake of the two.
+  </p>
+</section>
+
+<section id="data">
+  <h2><span class="num">02</span>Data</h2>
+  <p>
+    All results below use the FlyRank ML internship warehouse release on
+    Hugging Face — a pseudonymized Search Console and Analytics dataset with
+    no client names, domains, or raw queries. Pages and clients are identified
+    only by hashed IDs.
+  </p>
+  <div class="stat-row">
+    <div class="stat"><div class="n">Jan–Jun</div><div class="l">2026 monthly panel used</div></div>
+    <div class="stat"><div class="n">9.8M</div><div class="l">page-day rows, March slice</div></div>
+    <div class="stat"><div class="n">36.7%</div><div class="l">of page-days have usable GSC data</div></div>
+    <div class="stat"><div class="n">50</div><div class="l">clients in the evaluation panel</div></div>
+  </div>
+  <p>
+    Features used throughout: average search position, total impressions,
+    total clicks, and click-through rate, each aggregated per page over a
+    single calendar month. All are knowable at the decision moment — none
+    depend on data from after the month being scored. The sealed final month
+    of the release (June 2026) was never used to build or tune anything; it
+    was held out entirely, per the release's own guidance.
+  </p>
+  <p><strong>Excluded by design:</strong> raw query text, raw URLs, and any
+  future-window metric that could leak the outcome into the features.</p>
+</section>
+
+<section id="method">
+  <h2><span class="num">03</span>Methodology</h2>
+
+  <h3>The baseline</h3>
+  <p>
+    A hand-written rule flags pages sitting at search positions 11–20 (just
+    off page one) with at least 100 impressions in the month, plus a
+    secondary flag for well-ranked pages (top 10) with unusually low
+    click-through rate. This is the standard a learned model has to beat.
+  </p>
+
+  <h3>The label</h3>
+  <p>
+    A page is labeled <em>declining</em> if its clicks the following month
+    fall below 80% of its clicks this month, among pages with at least 100
+    impressions. This is a proxy, not a verified cause of decline — a page can
+    lose clicks for reasons a refresh won't fix, such as seasonality.
+  </p>
+  <div class="card warn">
+    <strong>Known artifact in this label:</strong> a page with zero clicks in
+    the feature month can never be labeled declining, since no amount of
+    further drop is possible. 39.6% of feature-month pages fall into this
+    zero-click group. Any comparison between methods has to account for this,
+    or it will look more decisive than it is.
+  </div>
+
+  <h3>The model</h3>
+  <p>
+    A shallow decision tree (max depth 4, class-balanced), chosen over a
+    forest or boosted model because the goal this early is an interpretable
+    result that can be read and questioned, not the highest possible score.
+  </p>
+
+  <h3>Validation design</h3>
+  <p>
+    Two weaknesses had to be closed before any result was trustworthy.
+    First, evaluation is <strong>time-aware</strong>: the model trains on
+    January–February features and is scored on April–May outcomes, never on
+    data from its own training window. Second, evaluation is
+    <strong>grouped by client</strong>: 30% of clients are held out of
+    training entirely, so the test set contains only clients the model has
+    never seen. Both were necessary — page overlap between the training and
+    test months alone accounted for 52,792 shared pages before grouping was
+    introduced.
+  </p>
+</section>
+
+<section id="results">
+  <h2><span class="num">04</span>Results</h2>
+
+  <h3>Model vs. baseline, same held-out clients</h3>
+  <p>
+    Precision at the top 50 ranked pages (P@50), measured across ten
+    different random draws of which 15 of 50 clients were held out:
+  </p>
+
+  <svg viewBox="0 0 620 190" width="100%" height="auto" role="img" aria-label="Bar chart comparing baseline and tree precision at 50 across ten client draws">
+    <line x1="60" y1="20" x2="60" y2="150" stroke="var(--line)" stroke-width="1"/>
+    <line x1="60" y1="150" x2="600" y2="150" stroke="var(--line)" stroke-width="1"/>
+    <text x="52" y="24" text-anchor="end" font-family="IBM Plex Mono" font-size="10" fill="var(--ink-soft)">1.0</text>
+    <text x="52" y="87" text-anchor="end" font-family="IBM Plex Mono" font-size="10" fill="var(--ink-soft)">0.5</text>
+    <text x="52" y="154" text-anchor="end" font-family="IBM Plex Mono" font-size="10" fill="var(--ink-soft)">0</text>
+    <line x1="60" y1="85" x2="600" y2="85" stroke="var(--line)" stroke-width="0.5" stroke-dasharray="2,3"/>
+    <!-- baseline bar: mean 0.30 -->
+    <rect x="140" y="111" width="90" height="39" fill="var(--ink-soft)" opacity="0.55" rx="2"/>
+    <text x="185" y="168" text-anchor="middle" font-family="IBM Plex Sans" font-size="12" fill="var(--ink)">Week 4 rule</text>
+    <text x="185" y="104" text-anchor="middle" font-family="IBM Plex Mono" font-size="12" fill="var(--ink)">0.30</text>
+    <!-- tree bar: mean 0.60, range 0.26-0.80 -->
+    <rect x="370" y="63" width="90" height="87" fill="var(--teal)" rx="2"/>
+    <line x1="415" y1="20" x2="415" y2="63" stroke="var(--teal-deep)" stroke-width="1.5"/>
+    <line x1="415" y1="150" x2="415" y2="20" stroke="none"/>
+    <line x1="403" y1="34" x2="427" y2="34" stroke="var(--teal-deep)" stroke-width="1.5"/>
+    <line x1="415" y1="34" x2="415" y2="63" stroke="var(--teal-deep)" stroke-width="1.5"/>
+    <circle cx="415" cy="34" r="2" fill="var(--teal-deep)"/>
+    <text x="415" y="168" text-anchor="middle" font-family="IBM Plex Sans" font-size="12" fill="var(--ink)">Decision tree</text>
+    <text x="415" y="56" text-anchor="middle" font-family="IBM Plex Mono" font-size="12" fill="var(--teal-deep)">0.60 mean</text>
+  </svg>
+  <p class="chartcap">
+    Mean P@50 across ten client draws. The tree's bar spans its observed
+    range (0.26–0.80); the marked line is the mean of 0.60. The rule averaged
+    0.30. Base rate of genuine decline in these test sets was roughly 25–29%.
+  </p>
+
+  <div class="scrollx">
+  <table>
+    <tr><th>Measure</th><th>Week 4 rule</th><th>Decision tree</th></tr>
+    <tr><td>Mean P@50, 10 client draws</td><td>0.30</td><td>0.60</td></tr>
+    <tr><td>Range across draws</td><td>0.24–0.36</td><td>0.26–0.80</td></tr>
+    <tr><td>Draws where it won</td><td>1 of 10</td><td>9 of 10</td></tr>
+    <tr><td>P@50, clicks&gt;0 pages only</td><td>0.44</td><td>0.64</td></tr>
+  </table>
+  </div>
+
+  <h3>Where the two methods actually disagree</h3>
+  <p>
+    The most useful finding in this project may be this one: the tree's
+    top 500 ranked pages and the rule's top 500 ranked pages
+    <strong>share zero pages in common</strong>. The rule clusters tightly
+    around position 11, the edge of its defined "quick-win zone." The tree
+    spreads its picks across positions 11–35, favoring somewhat lower
+    impressions and marginally higher click-through rate. The two methods are
+    not refining the same shortlist — they are finding different
+    populations entirely.
+  </p>
+  <div class="stat-row">
+    <div class="stat"><div class="n">0</div><div class="l">pages in both top-500 lists</div></div>
+    <div class="stat"><div class="n">500 / 500</div><div class="l">unique picks, rule / tree</div></div>
+  </div>
+</section>
+
+<section id="limits">
+  <h2><span class="num">05</span>Limitations &amp; honest framing</h2>
+  <div class="card limit">
+    <ul>
+      <li><strong>Small client panel.</strong> All numbers above come from 50
+      clients, 15 held out per draw. This is enough to be directional, not
+      enough to be a stable, production-grade benchmark.</li>
+      <li><strong>Result instability.</strong> The tree's P@50 ranged from
+      0.26 to 0.80 depending on which clients were held out. Reporting only
+      the mean would overstate how reliable a single run is.</li>
+      <li><strong>Label artifact.</strong> 39.6% of pages start with zero
+      clicks and are permanently ineligible to be labeled declining under
+      this formula, which shapes what the model can ever learn to flag.</li>
+      <li><strong>No causal claim.</strong> Nothing here shows that any
+      signal causes decline, or that refreshing a flagged page would recover
+      clicks. The evidence is observational and directional.</li>
+    </ul>
+  </div>
+  <p>
+    Claims in this paper are deliberately scoped to what was measured:
+    observed patterns in this dataset, directional relationships, and
+    decision-support for a human reviewer — never proof about how any search
+    engine ranks pages.
+  </p>
+</section>
+
+<section id="playbook">
+  <h2><span class="num">06</span>Ranked recommendations</h2>
+  <p>
+    Because the two methods flag different pages with no overlap, the
+    playbook treats them as two separate, lower-confidence signals rather
+    than blending them into one score.
+  </p>
+  <div class="scrollx">
+  <table>
+    <tr><th>Reason code</th><th>Meaning</th><th>Suggested action</th></tr>
+    <tr><td><span class="tag">rule_only</span></td><td>Near page-one edge, real impressions</td><td>Review for refresh</td></tr>
+    <tr><td><span class="tag">tree_only</span></td><td>Learned pattern flags it; use with more caution</td><td>Review for refresh</td></tr>
+    <tr><td><span class="tag">neither_flag</span></td><td>No signal from either method</td><td>No action</td></tr>
+  </table>
+  </div>
+  <h3>Never automate</h3>
+  <ul>
+    <li>Auto-publishing content changes based on a score alone.</li>
+    <li>Auto-deprioritizing or removing a page based on a score alone.</li>
+    <li>Treating a <code>tree_only</code> pick as equal-confidence to a
+    manually reviewed finding, given its 0.26–0.80 range.</li>
+    <li>Applying this queue to clients outside the 50 evaluated here without
+    re-validating first.</li>
+  </ul>
+  <h3>Monitor and retrain when</h3>
+  <ul>
+    <li>Precision@50 on a fresh held-out month drops well below the 0.60
+    average observed here.</li>
+    <li>The zero-overlap pattern between the two methods changes materially.</li>
+    <li>More than roughly 90 days pass since the last retrain.</li>
+  </ul>
+</section>
+
+<section id="repro">
+  <h2><span class="num">07</span>Reproducibility</h2>
+  <p>
+    Every notebook behind this paper is public in the project repository,
+    in run order:
+  </p>
+  <ol>
+    <li><code>work/notebooks/w01_research_question.ipynb</code> — lane choice and framing</li>
+    <li><code>work/notebooks/w02_ml_task_framing.ipynb</code> — task type, target, metric</li>
+    <li><code>work/notebooks/w03_data_contract.ipynb</code> — data contract, leakage demo</li>
+    <li><code>work/notebooks/w04_baseline_score.ipynb</code> — the Week 4 rule</li>
+    <li><code>work/notebooks/w05_model.ipynb</code> — the decision tree, first pass</li>
+    <li><code>work/notebooks/w06_validation_audit.ipynb</code> — grouped-split audit, this paper's headline result</li>
+    <li><code>work/notebooks/w07_action_playbook.ipynb</code> — the ranked playbook and exports</li>
+  </ol>
+  <p>Metrics referenced above are committed at
+  <code>work/outputs/w07_metrics.json</code>.</p>
+</section>
+
+</div>
+
+<footer>
+  <p>Built on the FlyRank ML Internship dataset —
+  <a href="https://flyrank.ai" target="_blank" rel="noopener">flyrank.ai</a>.
+  All figures are observational findings on a pseudonymized dataset and do
+  not represent verified causal effects or Google ranking mechanics.</p>
+</footer>
+
+</body>
+</html>
