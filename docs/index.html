@@ -126,11 +126,15 @@
 <section id="intro">
   <h2><span class="num">01</span>Introduction</h2>
   <p>
-    Content teams can't manually review every page in a large portfolio to
-    decide what needs a refresh. This project asks a narrower, decision-shaped
-    question instead of a modeling question: <strong>which declining pages
-    should a content editor look at first, this week, given limited review
-    time?</strong>
+    This project grew out of a real FlyRank workflow problem: content teams
+    already use hand-written optimization flags — <em>Healthy</em>,
+    <em>Fix CTR</em>, <em>Fix Content</em>, <em>Zombie Page</em> — to triage a
+    portfolio too large to review by hand. Those flags are useful triage
+    cues, but they're rules, not learned patterns, and nobody had checked
+    whether a simple learned model could sharpen that first pass. This
+    project is that check, applied to one slice of the problem: <strong>which
+    declining pages should a content editor look at first, this week, given
+    limited review time?</strong>
   </p>
   <p>
     The unit of analysis is one page's monthly performance snapshot. The
@@ -138,7 +142,9 @@
     reviewer can see why a page was flagged, not just that it was. A wrong
     call has an asymmetric cost: flagging a healthy page wastes an editor's
     time, but missing a genuinely declining, visible page lets it lose ground
-    silently — the more expensive mistake of the two.
+    silently — the more expensive mistake of the two. This paper is a case
+    study of that problem, worked end to end on one real, public-safe slice
+    of FlyRank's own data.
   </p>
 </section>
 
